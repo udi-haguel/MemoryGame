@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:translationZ="0dp"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/background" />
+
+    <ImageView
+        android:id="@+id/iv_one_piece_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo_memory_game"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/logo" />
+
+    <TextView
+        android:id="@+id/tv_memory_game"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/one_piece"
+        android:gravity="center"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:text="@string/memory_game_caps"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo" />
+
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/cards_flow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="32dp"
+        android:elevation="10dp"
+        app:constraint_referenced_ids="card_1,card_2,card_3,card_4,card_5,card_6,card_7,card_8,card_9,card_10,card_11,card_12,card_13,card_14,card_15,card_16"
+        app:flow_horizontalGap="8dp"
+        app:flow_maxElementsWrap="4"
+        app:flow_verticalGap="8dp"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_memory_game" />
+
+    <ImageView
+        android:id="@+id/card_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_11"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_12"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_13"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_14"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_15"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+    <ImageView
+        android:id="@+id/card_16"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/card"
+        android:src="@drawable/card_back" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
