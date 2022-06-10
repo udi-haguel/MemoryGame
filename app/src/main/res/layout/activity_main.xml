@@ -52,21 +52,23 @@
         app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo" />
 
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/cards_flow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="32dp"
-        android:elevation="10dp"
-        app:constraint_referenced_ids="card_1,card_2,card_3,card_4,card_5,card_6,card_7,card_8,card_9,card_10,card_11,card_12,card_13,card_14,card_15,card_16"
-        app:flow_horizontalGap="8dp"
-        app:flow_maxElementsWrap="4"
-        app:flow_verticalGap="8dp"
-        app:flow_wrapMode="chain"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_memory_game" />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/cards_flow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="32dp"
+            android:elevation="10dp"
+            app:constraint_referenced_ids="card_1,card_2,card_3,card_4,card_5,card_6,card_7,card_8,card_9,card_10,card_11,card_12,card_13,card_14,card_15,card_16"
+            app:flow_horizontalGap="8dp"
+            app:flow_maxElementsWrap="4"
+            app:flow_verticalGap="8dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
     <ImageView
         android:id="@+id/card_1"
@@ -91,7 +93,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_4"
         android:layout_width="0dp"
@@ -99,7 +100,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_5"
         android:layout_width="0dp"
@@ -107,7 +107,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_6"
         android:layout_width="0dp"
@@ -115,7 +114,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_7"
         android:layout_width="0dp"
@@ -123,7 +121,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_8"
         android:layout_width="0dp"
@@ -131,7 +128,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_9"
         android:layout_width="0dp"
@@ -139,7 +135,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_10"
         android:layout_width="0dp"
@@ -147,7 +142,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_11"
         android:layout_width="0dp"
@@ -155,7 +149,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_12"
         android:layout_width="0dp"
@@ -163,7 +156,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_13"
         android:layout_width="0dp"
@@ -171,7 +163,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_14"
         android:layout_width="0dp"
@@ -179,7 +170,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_15"
         android:layout_width="0dp"
@@ -187,7 +177,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
-
     <ImageView
         android:id="@+id/card_16"
         android:layout_width="0dp"
@@ -195,5 +184,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/card"
         android:src="@drawable/card_back" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

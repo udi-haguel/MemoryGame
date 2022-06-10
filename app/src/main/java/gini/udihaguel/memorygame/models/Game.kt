@@ -1,7 +1,10 @@
 package gini.udihaguel.memorygame.models
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+class Game(var difficultyLevel:Int, var cardsList:List<Card<*>>) {
 
-class Game {
-    var cards:MutableList<Card<Comparable<Comparable<*>>>> = mutableListOf()
+    //var cards:MutableList<Card<Comparable<Comparable<*>>>> = mutableListOf()
+
+
+
+
 }

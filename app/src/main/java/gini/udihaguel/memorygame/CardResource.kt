@@ -19,5 +19,5 @@ class CardResource {
         R.drawable.yamato,
         R.drawable.bon
     )
-    
+
 }
