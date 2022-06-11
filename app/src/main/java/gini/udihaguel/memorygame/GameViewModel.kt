@@ -1,6 +1,5 @@
 package gini.udihaguel.memorygame
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,22 +9,63 @@ import gini.udihaguel.memorygame.networking.ApiManager
 
 class GameViewModel : ViewModel() {
 
-    private val _cards = MutableLiveData<List<Card<*>>>()
+    private val _allCardsLiveData = MutableLiveData<List<Card<*>>>()
+    val allCardsLiveData: LiveData<List<Card<*>>> get() = _allCardsLiveData
 
-    val cards: LiveData<List<Card<*>>> get() = _cards
+    private val _gameLiveData = MutableLiveData<Game>()
+    val gameLiveData: LiveData<Game> get() = _gameLiveData
+
+    private val _lockUiLiveData = MutableLiveData<Boolean>()
+    val lockUiLiveData: LiveData<Boolean> get() = _lockUiLiveData
 
     private val apiManager = ApiManager()
-    private val game:Game? = null
+
+    private val imagesMap = mutableMapOf<String, Int>()
 
 
 
     fun apiCall(){
-        apiManager.getContentFromApi(){
+        apiManager.getContentFromApi(){ response ->
             val cardList = mutableListOf<Card<*>>()
-            it.contentList.forEach { content->
+            response.contentList.forEach { content->
                 cardList.add(Card(content.toString()))
             }
-            _cards.postValue(cardList)
+            cardList.sortBy { card -> card.content.toString() }
+            initImagesMap(cardList)
+            _allCardsLiveData.postValue(cardList)
         }
     }
+
+    private fun initImagesMap(cards: List<Card<*>>) {
+        if (imagesMap.isEmpty()){
+            cards.forEachIndexed { index, card ->
+                if (!imagesMap.containsKey(card.content.toString()))
+                    imagesMap[card.content.toString()] = CardResource.cardsDrawableIds[(index%16)/2]
+            }
+        }
+    }
+
+
+     fun startGame(difficulty: Int) {
+        val game = Game()
+        game.startGame(difficulty,allCardsLiveData.value!!)
+        _gameLiveData.postValue(game)
+    }
+
+    fun convertToDrawable(index: Int):Int = imagesMap[_gameLiveData.value!!.currentGameCards[index].content.toString()]!!
+
+    fun onCardClicked(index: Int) {
+        val game = _gameLiveData.value
+        game?.handleCardClicked(index)
+
+        _gameLiveData.postValue(game)
+    }
+
+    fun setDirtyFalse(index: Int) {
+        val game = _gameLiveData.value
+        game?.setDirtyStateToFalse(index, false)
+        //_gameLiveData.postValue(game)
+    }
+
+
 }

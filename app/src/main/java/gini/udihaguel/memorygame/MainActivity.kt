@@ -1,16 +1,14 @@
 package gini.udihaguel.memorygame
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.Shader
 import android.os.Bundle
-import android.text.TextPaint
+import android.os.Handler
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +19,7 @@ import gini.udihaguel.memorygame.databinding.ActivityMainBinding
 import gini.udihaguel.memorygame.models.Card
 import gini.udihaguel.memorygame.networking.ApiManager
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,21 +28,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var gameViewModel: GameViewModel
-
-    private val apiManager = ApiManager()
-
-/*
-
-
     private lateinit var imageViews:List<ImageView>
 
-    private var cards = mutableListOf<MemoryGameCard>()
 
-    private var twoCards:Pair<MemoryGameCard?,MemoryGameCard?> = Pair(null,null)
-    private var twoImageViews:Pair<ImageView?, ImageView?> = Pair(null,null)
-
-
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,100 +38,89 @@ class MainActivity : AppCompatActivity() {
 
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
         gameViewModel.apiCall()
-        gameViewModel.cards.observe(this) { cardList ->
-
+        gameViewModel.allCardsLiveData.observe(this) {
+            gameViewModel.startGame(1)
         }
-
-/*
-
-
-        gameViewModel..observe(this){
-
+        gameViewModel.gameLiveData.observe(this){
+            notifyGameChange()
         }
-
-        val nameObserver = Observer{ observable, any ->
-
-        }
-
-        binding.ivOnePieceLogo.setOnClickListener {
-
-        }
-
-        CardResource().cardsDrawableIds.forEachIndexed { i, frontImage ->
-            if (cards.size == 16) return@forEachIndexed
-            cards.add(MemoryGameCard(i, frontImage))
-            cards.add(MemoryGameCard(i, frontImage))
-        }
-
-        cards.shuffle()
-
-        setupTextViewColor()
 
         imageViews = binding.cardsFlow.referencedIds.map(this::findViewById)
 
-        imageViews.forEachIndexed { i, imageView ->
-            imageView.setOnClickListener {
-                startFlipAnimation(imageView, cards[i])
-
-                if (twoCards.first == null) {
-                    twoCards = twoCards.copy(first = cards[i])
-                    twoImageViews = twoImageViews.copy(first = imageView)
-                }else if (twoCards.second == null) {
-                    twoCards = twoCards.copy(second = cards[i])
-                    twoImageViews = twoImageViews.copy(second = imageView)
-                }
-                checkIfMatched()
-            }
-        }
-
- */
     }
 
 
 
 
-    private fun startFlipAnimation(iv:ImageView, card:MemoryGameCard, delay:Long = 0L){
+    private fun notifyGameChange(){
+        val activeGame = gameViewModel.gameLiveData.value
+        imageViews.forEachIndexed { index, imageView ->
+            val activeGameCards = activeGame!!.currentGameCards
+
+            // active state
+            if (index < activeGameCards.count()) {
+                if (activeGameCards[index].isDirty){
+                    startFlipAnimation(imageView, activeGameCards[index], index, activeGame.flipBackDelay)
+
+                } else {
+                    val drawableRes = if (activeGameCards[index].isFaceUp) gameViewModel.convertToDrawable(index) else R.drawable.card_back
+                    imageView.setImageResource(drawableRes)
+                }
+                imageView.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        Log.d("TAG", "onCardClicked $index")
+                        onCardClicked(index)
+                    }
+                }
+            } else {
+                // default state
+                imageView.apply {
+                    visibility = View.GONE
+                    setOnClickListener(null)
+                    setImageResource(R.drawable.card_back)
+                }
+            }
+        }
+    }
+
+    private fun onCardClicked(index: Int) {
+        gameViewModel.onCardClicked(index)
+    }
+
+    private fun startFlipAnimation(iv:ImageView, card:Card<*>, index:Int, delay:Long = 0L){
+        Log.d("TAG", "cardFlipAnimation $index")
+        val faceUpResource = gameViewModel.convertToDrawable(index)
+        val faceDownResource = R.drawable.card_back
         val anim1 = ObjectAnimator.ofFloat(iv,
             "scaleX",
             1f, 0f)
             .apply {
-                startDelay = delay
+                //startDelay = delay
                 interpolator = DecelerateInterpolator()
         }
-
         val anim2 = ObjectAnimator.ofFloat(iv,
             "scaleX",
             0f, 1f)
             .apply {
                 interpolator = AccelerateInterpolator()
         }
-
         anim1.doOnEnd {
-            if (card.isBack)
-                iv.setImageResource(card.front)
+            if (card.isFaceUp)
+                iv.setImageResource(faceUpResource)
             else
-                iv.setImageResource(card.back)
+                iv.setImageResource(faceDownResource)
 
-            card.isBack = !card.isBack
             anim2.start()
         }
-        anim1.start()
-    }
-
-
-    private fun checkIfMatched() {
-        if (twoCards.first != null && twoCards.second != null) {
-            if (twoCards.first!!.cardNumber != twoCards.second!!.cardNumber) {
-                startFlipAnimation(twoImageViews.first!!, twoCards.first!!, 1000)
-                startFlipAnimation(twoImageViews.second!!, twoCards.second!!, 1000)
-            } else {
-                twoImageViews.first!!.isClickable = false
-                twoImageViews.second!!.isClickable = false
-            }
-            twoCards = Pair(null,null)
-            twoImageViews = Pair(null,null)
+        anim2.doOnEnd {
+            gameViewModel.setDirtyFalse(index)
         }
+        anim1.start()
+
     }
+
+/*
     private fun setupTextViewColor() {
         val paint: TextPaint = binding.tvMemoryGame.paint
         val width = paint.measureText(binding.tvMemoryGame.text.toString())
@@ -156,16 +132,10 @@ class MainActivity : AppCompatActivity() {
             ), null, Shader.TileMode.MIRROR
         )
         binding.tvMemoryGame.paint.shader = textShader
-
     }
 
-
-     */
-
-
-
-
-    /*
+ */
+/*
     private fun addIVs(c:List<Card<*>>){
         // removing all views from container
         binding.cardsFlow.referencedIds = intArrayOf()
