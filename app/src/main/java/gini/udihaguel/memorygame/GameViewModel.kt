@@ -23,7 +23,6 @@ class GameViewModel : ViewModel() {
     private val imagesMap = mutableMapOf<String, Int>()
 
 
-
     fun apiCall(){
         apiManager.getContentFromApi(){ response ->
             val cardList = mutableListOf<Card<*>>()
@@ -48,12 +47,12 @@ class GameViewModel : ViewModel() {
 
      fun startGame(difficulty: Int) {
         val game = Game()
+         game.startGame(difficulty,allCardsLiveData.value!!)
          game.currentGameCards.forEach {
              it.isFaceUp = false
              it.isMatched = false
-             it.isCardDirty = false
+             it.isCardDirty = true
          }
-        game.startGame(difficulty,allCardsLiveData.value!!)
         _gameLiveData.postValue(game)
     }
 

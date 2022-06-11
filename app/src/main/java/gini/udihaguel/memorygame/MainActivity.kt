@@ -23,10 +23,8 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-
     private lateinit var gameViewModel: GameViewModel
     private lateinit var imageViews:List<ImageView>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                 gameViewModel.startGame(1)
             }
             notifyGameChange()
-
         }
 
         imageViews = binding.cardsFlow.referencedIds.map(this::findViewById)
@@ -57,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         imageViews.forEachIndexed { index, imageView ->
             val activeGameCards = activeGame!!.currentGameCards
 
-            // active state
             if (index < activeGameCards.count()) {
                 if (activeGameCards[index].isCardDirty){
                     startFlipAnimation(imageView, activeGameCards[index], index, activeGame.flipBackDelay)
@@ -69,12 +65,10 @@ class MainActivity : AppCompatActivity() {
                 imageView.apply {
                     visibility = View.VISIBLE
                     setOnClickListener {
-                        Log.d("TAG", "onCardClicked $index")
                         onCardClicked(index)
                     }
                 }
             } else {
-                // default state
                 imageView.apply {
                     visibility = View.GONE
                     setOnClickListener(null)
@@ -82,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun onCardClicked(index: Int) {
@@ -89,7 +84,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startFlipAnimation(iv:ImageView, card:Card<*>, index:Int, delay:Long = 0L){
-        Log.d("TAG", "cardFlipAnimation $index")
         val faceUpResource = gameViewModel.convertToDrawable(index)
         val faceDownResource = R.drawable.card_back
         val anim1 = ObjectAnimator.ofFloat(iv,
@@ -128,30 +122,11 @@ class MainActivity : AppCompatActivity() {
         val gameJSArray:JSONArray = FileIO.read(this, "GamesArray.txt").toJSONArray()
         gameJSArray.put(gameJS)
         FileIO.write(this, "GamesArray.txt", gameJSArray.toString())
-
-        //how to read a json
-//        for (i in 0..gameJSArray.length()){
-//            val currentGameJS = gameJSArray.getJSONObject(i)
-//            currentGameJS.getString("difficulty")
-//        }
     }
 
 /*
-    private fun setupTextViewColor() {
-        val paint: TextPaint = binding.tvMemoryGame.paint
-        val width = paint.measureText(binding.tvMemoryGame.text.toString())
 
-        val textShader: Shader = LinearGradient(
-            0f, 0f, width, binding.tvMemoryGame.textSize, intArrayOf(
-                Color.parseColor("#0815d1"),
-                Color.parseColor("#4abfff"),
-            ), null, Shader.TileMode.MIRROR
-        )
-        binding.tvMemoryGame.paint.shader = textShader
-    }
 
- */
-/*
     private fun addIVs(c:List<Card<*>>){
         // removing all views from container
         binding.cardsFlow.referencedIds = intArrayOf()
@@ -186,5 +161,27 @@ class MainActivity : AppCompatActivity() {
         return cardView
     }
 
+     */
+/*
+    private fun setupTextViewColor() {
+        val paint: TextPaint = binding.tvMemoryGame.paint
+        val width = paint.measureText(binding.tvMemoryGame.text.toString())
+
+        val textShader: Shader = LinearGradient(
+            0f, 0f, width, binding.tvMemoryGame.textSize, intArrayOf(
+                Color.parseColor("#0815d1"),
+                Color.parseColor("#4abfff"),
+            ), null, Shader.TileMode.MIRROR
+        )
+        binding.tvMemoryGame.paint.shader = textShader
+    }
+
+ */
+/*
+
+        for (i in 0..gameJSArray.length()){
+            val currentGameJS = gameJSArray.getJSONObject(i)
+            currentGameJS.getString("difficulty")
+        }
      */
 }

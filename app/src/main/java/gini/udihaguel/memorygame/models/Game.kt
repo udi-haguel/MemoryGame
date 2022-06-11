@@ -6,8 +6,6 @@ import java.util.*
 
 class Game() {
 
-    //var cards:MutableList<Card<Comparable<Comparable<*>>>> = mutableListOf()
-
     var currentGameCards = mutableListOf<Card<*>>()
     private var difficultyLevel: Int = 1
     private var clickedIndices = mutableListOf<Int>()
@@ -26,11 +24,9 @@ class Game() {
         currentGameCards.shuffle()
         gameStartTime = Calendar.getInstance().time
         flipBackDelay = 0L
+        mismatchCounter = 0
         isGameDirty = false
         hasGameEnded = false
-
-    //TODO: reset all variables
-
     }
 
 
@@ -62,11 +58,11 @@ class Game() {
 
 
         if (card1.content.toString() == card2.content.toString()){
-            Log.d("TAG", "checkForMatch: matched")
+            Log.d("TAG", "detectAndHandleMatch: matched")
             card1.isMatched = true
             card2.isMatched = true
         } else {
-            Log.d("TAG", "checkForMatch: no match")
+            Log.d("TAG", "detectAndHandleMatch: no match")
             card1.isCardDirty = true
             card2.isCardDirty = true
             card1.isFaceUp = false
@@ -101,3 +97,6 @@ class Game() {
     }
 
 }
+
+
+//var cards:MutableList<Card<Comparable<Comparable<*>>>> = mutableListOf()
