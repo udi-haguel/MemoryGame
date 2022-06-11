@@ -15,7 +15,7 @@ class ApiManager {
     @OptIn(DelicateCoroutinesApi::class)
     fun getContentFromApi(listener: ContentListener) {
         GlobalScope.launch {
-            val response = contentService.getContent(NUMBERS_KEY)
+            val response = contentService.getContent(LETTERS_KEY)
             response.body()?.let { listener.onGetContent(it) } ?: throw NoDataException()
         }
     }
