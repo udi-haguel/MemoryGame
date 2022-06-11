@@ -2,24 +2,21 @@ package gini.udihaguel.memorygame
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.helper.widget.Flow
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import gini.udihaguel.memorygame.databinding.ActivityMainBinding
+import gini.udihaguel.memorygame.extensions.toJSONArray
 import gini.udihaguel.memorygame.models.Card
-import gini.udihaguel.memorygame.networking.ApiManager
-import java.util.*
-import kotlin.collections.HashMap
+import gini.udihaguel.memorygame.models.Game
+import gini.udihaguel.memorygame.utils.FileIO
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,14 +39,17 @@ class MainActivity : AppCompatActivity() {
             gameViewModel.startGame(1)
         }
         gameViewModel.gameLiveData.observe(this){
+            if (it.hasGameEnded) {
+                saveGame(it)
+                gameViewModel.startGame(1)
+            }
             notifyGameChange()
+
         }
 
         imageViews = binding.cardsFlow.referencedIds.map(this::findViewById)
 
     }
-
-
 
 
     private fun notifyGameChange(){
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
             // active state
             if (index < activeGameCards.count()) {
-                if (activeGameCards[index].isDirty){
+                if (activeGameCards[index].isCardDirty){
                     startFlipAnimation(imageView, activeGameCards[index], index, activeGame.flipBackDelay)
 
                 } else {
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             "scaleX",
             1f, 0f)
             .apply {
-                //startDelay = delay
+                startDelay = delay
                 interpolator = DecelerateInterpolator()
         }
         val anim2 = ObjectAnimator.ofFloat(iv,
@@ -115,9 +115,25 @@ class MainActivity : AppCompatActivity() {
         }
         anim2.doOnEnd {
             gameViewModel.setDirtyFalse(index)
+            gameViewModel.checkForMatch()
         }
         anim1.start()
 
+    }
+
+
+
+    private fun saveGame(game: Game){
+        val gameJS:JSONObject = game.createJSON()
+        val gameJSArray:JSONArray = FileIO.read(this, "GamesArray.txt").toJSONArray()
+        gameJSArray.put(gameJS)
+        FileIO.write(this, "GamesArray.txt", gameJSArray.toString())
+
+        //how to read a json
+//        for (i in 0..gameJSArray.length()){
+//            val currentGameJS = gameJSArray.getJSONObject(i)
+//            currentGameJS.getString("difficulty")
+//        }
     }
 
 /*

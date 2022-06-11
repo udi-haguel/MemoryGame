@@ -1,12 +1,7 @@
 package gini.udihaguel.memorygame.models
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
-import kotlinx.coroutines.delay
-import java.sql.Time
-import java.time.LocalDateTime
+import org.json.JSONObject
 import java.util.*
 
 class Game() {
@@ -18,6 +13,8 @@ class Game() {
     private var clickedIndices = mutableListOf<Int>()
     private var mismatchCounter:Int = 0
     var flipBackDelay:Long = 0L
+    var isGameDirty:Boolean = false
+    var hasGameEnded:Boolean = false
     private lateinit var gameStartTime: Date
     private lateinit var gameEndTime: Date
 
@@ -28,29 +25,39 @@ class Game() {
         currentGameCards.addAll(cards.subList(0, difficulty*4))
         currentGameCards.shuffle()
         gameStartTime = Calendar.getInstance().time
+        flipBackDelay = 0L
+        isGameDirty = false
+        hasGameEnded = false
+
+    //TODO: reset all variables
 
     }
 
 
     fun handleCardClicked (cardIndex: Int){
+        if (currentGameCards[cardIndex].isFaceUp){
+            isGameDirty = false
+            return
+        }
         flipBackDelay = 0L
         currentGameCards[cardIndex].isFaceUp = !currentGameCards[cardIndex].isFaceUp
-        currentGameCards[cardIndex].isDirty = true
-        if (clickedIndices.size == 0 ) {
+        currentGameCards[cardIndex].isCardDirty = true
+        if (clickedIndices.size != 2 ) {
             clickedIndices.add(cardIndex)
-        }else {
-            clickedIndices.add(cardIndex)
-            checkForMatch()
         }
-
-
+        isGameDirty = true
     }
 
-    private fun checkForMatch() {
+    fun detectAndHandleMatch() {
+        if (clickedIndices.size != 2) {
+            isGameDirty = false
+            return
+        }
+
         val card1 = currentGameCards[clickedIndices[0]]
         val card2 = currentGameCards[clickedIndices[1]]
-        card1.isDirty = false
-        card2.isDirty = false
+        card1.isCardDirty = false
+        card2.isCardDirty = false
         clickedIndices.clear()
 
 
@@ -60,19 +67,37 @@ class Game() {
             card2.isMatched = true
         } else {
             Log.d("TAG", "checkForMatch: no match")
-            card1.isDirty = true
-            card2.isDirty = true
+            card1.isCardDirty = true
+            card2.isCardDirty = true
             card1.isFaceUp = false
             card2.isFaceUp = false
             mismatchCounter++
-            flipBackDelay = 2000L
+            flipBackDelay = 1000L
         }
+        checkForGameOver()
+        isGameDirty = true
 
+    }
+
+    private fun checkForGameOver() {
+        currentGameCards.forEach {
+            hasGameEnded = true
+            if (!it.isMatched)
+                hasGameEnded = false
+        }
     }
 
     fun setDirtyStateToFalse(cardIndex: Int, state:Boolean) {
-        currentGameCards[cardIndex].isDirty = state
+        currentGameCards[cardIndex].isCardDirty = state
     }
 
+    fun createJSON(): JSONObject {
+        val gameJS:JSONObject = JSONObject()
+        gameJS.apply {
+            put("difficulty","$difficultyLevel")
+        }
+
+        return gameJS
+    }
 
 }

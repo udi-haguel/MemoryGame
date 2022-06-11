@@ -48,6 +48,11 @@ class GameViewModel : ViewModel() {
 
      fun startGame(difficulty: Int) {
         val game = Game()
+         game.currentGameCards.forEach {
+             it.isFaceUp = false
+             it.isMatched = false
+             it.isCardDirty = false
+         }
         game.startGame(difficulty,allCardsLiveData.value!!)
         _gameLiveData.postValue(game)
     }
@@ -57,14 +62,26 @@ class GameViewModel : ViewModel() {
     fun onCardClicked(index: Int) {
         val game = _gameLiveData.value
         game?.handleCardClicked(index)
+        if (game?.isGameDirty == true){
+            _lockUiLiveData.postValue(true)
+            _gameLiveData.postValue(game)
+        } else
+            _lockUiLiveData.postValue(false)
 
-        _gameLiveData.postValue(game)
+
     }
 
     fun setDirtyFalse(index: Int) {
         val game = _gameLiveData.value
         game?.setDirtyStateToFalse(index, false)
-        //_gameLiveData.postValue(game)
+    }
+
+    fun checkForMatch(){
+        val game = _gameLiveData.value
+        game?.detectAndHandleMatch()
+        if (game?.isGameDirty == true)
+            _gameLiveData.postValue(game)
+        _lockUiLiveData.postValue(false)
     }
 
 
