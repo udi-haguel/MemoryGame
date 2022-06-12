@@ -1,6 +1,6 @@
 package gini.udihaguel.memorygame.networking
 
-import gini.udihaguel.memorygame.models.ContentListener
+import gini.udihaguel.memorygame.models.OnGetContentListener
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ class ApiManager {
 
 
     @OptIn(DelicateCoroutinesApi::class)
-    fun getContentFromApi(listener: ContentListener) {
+    fun getContentFromApi(listener: OnGetContentListener) {
         GlobalScope.launch {
             val response = contentService.getContent(LETTERS_KEY)
             response.body()?.let { listener.onGetContent(it) } ?: throw NoDataException()

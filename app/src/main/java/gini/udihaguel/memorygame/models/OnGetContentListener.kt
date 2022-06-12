@@ -1,5 +1,5 @@
 package gini.udihaguel.memorygame.models
 
-fun interface ContentListener {
+fun interface OnGetContentListener {
     fun onGetContent(content: ContentResponse)
 }
