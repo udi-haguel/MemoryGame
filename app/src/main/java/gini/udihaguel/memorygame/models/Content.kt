@@ -1,4 +1,4 @@
-package gini.udihaguel.memorygame.entities
+package gini.udihaguel.memorygame.models
 
 import com.google.gson.annotations.SerializedName
 

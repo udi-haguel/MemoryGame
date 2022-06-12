@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import gini.udihaguel.memorygame.models.Card
+import gini.udihaguel.memorygame.models.CardResource
 import gini.udihaguel.memorygame.models.Game
 import gini.udihaguel.memorygame.networking.ApiManager
 

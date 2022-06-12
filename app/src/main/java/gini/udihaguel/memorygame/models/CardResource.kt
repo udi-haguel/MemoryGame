@@ -1,4 +1,6 @@
-package gini.udihaguel.memorygame
+package gini.udihaguel.memorygame.models
+
+import gini.udihaguel.memorygame.R
 
 class CardResource {
     companion object {

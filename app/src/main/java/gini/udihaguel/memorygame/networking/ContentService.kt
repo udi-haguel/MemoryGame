@@ -1,6 +1,6 @@
 package gini.udihaguel.memorygame.networking
 
-import gini.udihaguel.memorygame.entities.ContentResponse
+import gini.udihaguel.memorygame.models.ContentResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
