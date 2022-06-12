@@ -1,8 +1,7 @@
-package gini.udihaguel.memorygame
+package gini.udihaguel.memorygame.ui
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -10,6 +9,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.lifecycle.ViewModelProvider
+import gini.udihaguel.memorygame.viewmodel.GameViewModel
+import gini.udihaguel.memorygame.R
 import gini.udihaguel.memorygame.databinding.ActivityMainBinding
 import gini.udihaguel.memorygame.extensions.toJSONArray
 import gini.udihaguel.memorygame.models.Card
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         gameViewModel.gameLiveData.observe(this){
             if (it.hasGameEnded) {
                 saveGame(it)
-                gameViewModel.startGame(1)
+                gameViewModel.startGame(2)
             }
             notifyGameChange()
         }

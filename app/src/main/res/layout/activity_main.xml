@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <ImageView
         android:layout_width="0dp"
@@ -52,23 +52,21 @@
         app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo" />
 
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/cards_flow"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="32dp"
-            android:elevation="10dp"
-            app:constraint_referenced_ids="card_1,card_2,card_3,card_4,card_5,card_6,card_7,card_8,card_9,card_10,card_11,card_12,card_13,card_14,card_15,card_16"
-            app:flow_horizontalGap="8dp"
-            app:flow_maxElementsWrap="4"
-            app:flow_verticalGap="8dp"
-            app:flow_wrapMode="chain"
-            app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/cards_flow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="32dp"
+        android:elevation="10dp"
+        app:constraint_referenced_ids="card_1,card_2,card_3,card_4,card_5,card_6,card_7,card_8,card_9,card_10,card_11,card_12,card_13,card_14,card_15,card_16"
+        app:flow_horizontalGap="8dp"
+        app:flow_maxElementsWrap="4"
+        app:flow_verticalGap="8dp"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_one_piece_logo" />
 
     <ImageView
         android:id="@+id/card_1"

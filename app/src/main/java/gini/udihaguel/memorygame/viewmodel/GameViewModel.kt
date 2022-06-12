@@ -1,4 +1,4 @@
-package gini.udihaguel.memorygame
+package gini.udihaguel.memorygame.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -73,7 +73,7 @@ class GameViewModel : ViewModel() {
 
     fun setDirtyFalse(index: Int) {
         val game = _gameLiveData.value
-        game?.setDirtyStateToFalse(index, false)
+        game?.setDirtyState(index, false)
     }
 
     fun checkForMatch(){

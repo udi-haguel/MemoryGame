@@ -16,6 +16,7 @@ class Game() {
     private lateinit var gameStartTime: Date
     private lateinit var gameEndTime: Date
 
+
     fun startGame(difficulty:Int, cards: List<Card<*>>){
         clickedIndices.clear()
         difficultyLevel = difficulty
@@ -35,6 +36,7 @@ class Game() {
             isGameDirty = false
             return
         }
+
         flipBackDelay = 0L
         currentGameCards[cardIndex].isFaceUp = !currentGameCards[cardIndex].isFaceUp
         currentGameCards[cardIndex].isCardDirty = true
@@ -42,7 +44,10 @@ class Game() {
             clickedIndices.add(cardIndex)
         }
         isGameDirty = true
+
+        //todo: check for game over/match
     }
+
 
     fun detectAndHandleMatch() {
         if (clickedIndices.size != 2) {
@@ -58,11 +63,11 @@ class Game() {
 
 
         if (card1.content.toString() == card2.content.toString()){
-            Log.d("TAG", "detectAndHandleMatch: matched")
+            Log.d("checkMatch", "detectAndHandleMatch: matched")
             card1.isMatched = true
             card2.isMatched = true
         } else {
-            Log.d("TAG", "detectAndHandleMatch: no match")
+            Log.d("checkMatch", "detectAndHandleMatch: no match")
             card1.isCardDirty = true
             card2.isCardDirty = true
             card1.isFaceUp = false
@@ -83,7 +88,7 @@ class Game() {
         }
     }
 
-    fun setDirtyStateToFalse(cardIndex: Int, state:Boolean) {
+    fun setDirtyState(cardIndex: Int, state:Boolean) {
         currentGameCards[cardIndex].isCardDirty = state
     }
 
@@ -91,11 +96,11 @@ class Game() {
         val gameJS:JSONObject = JSONObject()
         gameJS.apply {
             put("difficulty","$difficultyLevel")
+            //TODO: save more data
         }
 
         return gameJS
     }
-
 }
 
 
