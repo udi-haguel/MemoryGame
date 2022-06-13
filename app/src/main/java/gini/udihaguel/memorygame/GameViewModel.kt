@@ -72,7 +72,7 @@ class GameViewModel : ViewModel() {
 
     fun setDirtyFalse(index: Int) {
         val game = _gameLiveData.value
-        game?.setDirtyStateToFalse(index, false)
+        game?.setDirtyState(index, false)
     }
 
     fun checkForMatch(){

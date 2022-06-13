@@ -83,7 +83,7 @@ class Game() {
         }
     }
 
-    fun setDirtyStateToFalse(cardIndex: Int, state:Boolean) {
+    fun setDirtyState(cardIndex: Int, state:Boolean) {
         currentGameCards[cardIndex].isCardDirty = state
     }
 
